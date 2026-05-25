@@ -1,0 +1,27 @@
+# Question Backlog — UC87 Tra cứu dự án kêu gọi đầu tư
+
+**Ngày tạo:** 15/05/2026  
+**Tác giả:** QC Reviewer (Agent)  
+**Source:** UC87_tra-cuu-du-an-keu-goi-dau-tu_audited_20260515_v1.md
+
+---
+
+| ID | Priority | Ref | Question | Why It Matters | Status | BA Answer |
+|---|---|---|---|---|---|---|
+| Q1 | 🔴 High | §1, §2 | Cá nhân vs Tổ chức: App hiển thị khác nhau gì giữa 2 role? Form bổ sung thông tin có field khác nhau không? | Ảnh hưởng test case phân quyền — không biết cần test bao nhiêu role | Answered | Không có sự khác biệt giữa Cá nhân và Tổ chức. Cần update doc ghi rõ. |
+| Q2 | 🔴 High | §4 AC10 | AC10 "NĐT nhận push notification khi có dự án mới" — UC body (§2, §3) không mô tả luồng notification. App hiển thị notification ở đâu? Tap notification → điều hướng đến màn nào? | Orphan AC — không thể thiết kế test case | Answered | UC Thông báo là UC riêng. Xóa AC10 khỏi UC87 hoặc chuyển ref sang UC Thông báo. |
+| Q3 | ⚠️ Medium | §2.3 #13, §3.3 | Tap "Hủy quan tâm" có cần Confirmation Dialog (CMR-10) không? Đây là hành động không thể hoàn tác ngay. | Thiếu CMR-10 ref → không rõ UX flow hủy | Answered | Không cần Confirmation Dialog. |
+| Q4 | ⚠️ Medium | §2.2 #3, #5 | Multi-select dropdown (Lĩnh vực, Địa bàn, Ngành KT, Quốc gia): Giới hạn tối đa bao nhiêu item được chọn? App hiển thị thế nào khi chọn nhiều (chip/tag? truncate?)? | Ảnh hưởng UI layout và validation | Answered | Không giới hạn số lượng. Cần update doc bổ sung mô tả hiển thị chip/tag. |
+| Q5 | ⚠️ Medium | §2.2 #7 | "Quy mô vốn dự kiến" — Đơn vị VNĐ/USD: App cho phép chọn đơn vị bằng gì (dropdown bên cạnh? toggle?)? Khi matching, hệ thống có quy đổi tỷ giá không? | Ảnh hưởng test validation và matching logic | Answered | Bỏ chọn đơn vị, cố định VNĐ. Wireframe không có dropdown đơn vị → UC cần sửa lại: xóa "VNĐ hoặc USD (chọn bên cạnh)", thay bằng "Đơn vị: VNĐ". |
+| Q6 | ⚠️ Medium | §3.1 step 6, §8.2 | Khi NĐT đăng ký quan tâm ở màn Chi tiết (§2.4) → quay lại Danh sách (§2.3), trạng thái nút trên Card có cập nhật ngay (realtime) hay cần pull-to-refresh? | Data consistency giữa 2 màn hình | Answered | Cập nhật ngay khi quay lại (local state sync). Cần update doc. |
+| Q7 | ⚠️ Medium | §2.4 Section 7 | Tài liệu đính kèm: "Ẩn toàn bộ section" khi không có tài liệu — các section khác (1-6) nếu API trả null toàn bộ field thì section có ẩn hay vẫn hiển thị với "-"? | Error isolation + empty state per section | Answered | Section 1-6 luôn hiển thị với field = "-" (CMR-14). Chỉ Section 7 ẩn khi không có file. |
+| Q8 | ⚠️ Medium | §2.4 #13 | "Link quảng bá dự án" — Null → Ẩn field. Tại sao field này ẩn khi null thay vì hiển thị "-" (CMR-14)? Có field nào khác cũng ẩn khi null không? | Inconsistency với CMR-14 null rule | Answered | Exception CMR-14: Field dạng Link/Tappable → ẩn khi null thay vì hiển thị "-". |
+| Q9 | ⚠️ Medium | §3.1 step 5 | Matching Hybrid: "khớp ít nhất 1 tiêu chí bắt buộc (Lĩnh vực HOẶC Địa bàn)" — Nếu NĐT chỉ điền Lĩnh vực (bắt buộc) mà không điền Địa bàn (cũng bắt buộc) → form không submit được. Vậy matching luôn có CẢ HAI tiêu chí? Mô tả "HOẶC" có mâu thuẫn với form validation? | Mâu thuẫn logic matching vs form validation | Answered | Form bắt buộc điền cả 2. Matching chỉ cần khớp ít nhất 1 trong 2 để đưa vào kết quả. Cần viết lại rõ hơn trong UC. |
+| Q10 | 🟡 Low | §2.2 | Form bổ sung thông tin: Khi NĐT nhấn Back (←) mà đã thay đổi dữ liệu chưa submit → App có hiển thị Confirmation "Bạn có muốn rời đi?" không? | UX — tránh mất dữ liệu đã nhập | Answered | Có — hiển thị Confirmation (CMR-10) khi form dirty. Cần bổ sung vào UC. |
+| Q11 | 🟡 Low | §2.3 | Danh sách dự án đề xuất: Sắp xếp mặc định "mức độ phù hợp giảm dần" — NĐT có thể thay đổi thứ tự sắp xếp (theo tên, theo vốn, theo ngày) không? | Ảnh hưởng test sort functionality | Answered | Không — chỉ 1 thứ tự cố định (mức độ phù hợp giảm dần). |
+| Q12 | 🟡 Low | §2.4 #45-46 | Field "Mong muốn tìm đối tác nước ngoài" = "Có" → hiển thị field #46. Khi data thay đổi (từ "Có" → "Không") trên server → App reload chi tiết → #46 ẩn ngay? Hay chỉ là static display? | Reactive behavior cho conditional field | Answered | Static display — dữ liệu load 1 lần, không reactive. |
+| Q13 | 🟡 Low | §2.1 #3 | Icon Thông báo (Chuông) trên Hub: Badge đỏ hiển thị số lượng hay chỉ dot? Tap → "Trung tâm thông báo" — đây có phải UC riêng không? | Scope boundary — có thể thuộc UC khác | Answered | Dot (không hiển thị số), đồng nhất với các UC khác. Trung tâm thông báo là UC riêng. |
+| Q14 | ⚠️ Medium | §2.3 #13, §2.4 #50 | Khi NĐT tap "Đăng ký quan tâm" / "Hủy quan tâm", App hiển thị loading state gì trên button trong khi chờ API response? (disabled + spinner? hoặc chỉ debounce?) | Thiếu UI feedback cho action button — ảnh hưởng test UX | Open | |
+| Q15 | 🟡 Low | §2.4 Section 1-6 | BA xác nhận Section 1-6 luôn hiển thị (field null → "-"), nhưng UC body chưa ghi tường minh rule này. Đề xuất bổ sung 1 dòng vào §2.4 mô tả giao diện. | Tester cần evidence tường minh trong UC, không dựa vào backlog | Open | |
+| Q16 | 🟡 Low | §2.2 #7 | "Quy mô vốn dự kiến" — CMR-11 nói "Trường số >= 0: Không chấp nhận dấu -". UC có ref CMR-11 nhưng không nêu rõ giá trị 0 có hợp lệ không (NĐT nhập 0 VNĐ?). | Edge case validation | Open | |
+| Q17 | 🟡 Low | KA #3 | Role ngoài enum (Cá nhân/Tổ chức/Khách vãng lai): Nếu user có role không thuộc 3 loại trên → App xử lý thế nào? (Block access? Hiển thị như Khách?) | Fallback behavior — low priority vì hệ thống có thể chỉ có 3 role | Open | |

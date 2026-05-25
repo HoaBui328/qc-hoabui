@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la \"c:\\\\Users\\\\Luu Quang Hieu\\\\Documents\\\\BA-Workspace\\\\mbfs-bqa/docs/QC-MOBILE/review-doc/\" 2>/dev/null | grep -i \"UC71-82\" || echo \"No UC71-82 folder found\")",
+      "Read(//c/Users/Luu Quang Hieu/Documents/BA-Workspace/mbfs-bqa/docs/QC-MOBILE/review-doc/**)"
+    ]
+  }
+}
